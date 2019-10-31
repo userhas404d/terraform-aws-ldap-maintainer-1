@@ -6,6 +6,21 @@ A step function to maintain LDAP users via slack.
 
 This project deploys a collection of lambda functions, an api endpoint, and a step function that will automate disabling LDAP users via an interactive slack message.
 
+## Architecture
+
+![State Machine Definition](_docs/state_machine_def_0.0.1.png)
+
+## Submodules
+
+- [API Gateway](/modules/api_gateway): Deploys an API endpoint that responds asynchronously to slack events and triggers the Slack Listener lambda function
+
+### Lambda Functions
+
+- [DynamoDB Cleanup](/modules/lambda_functions/dynamodb_cleanup): Facilitates removing disabled users' email(s) from a target DynamoDB table
+- [LDAP Query](/modules/lambda_functions/ldap_query): Used to perform actions against a target ldap database
+- [Slack Listener](/modules/lambda_functions/slack_listener): Responds to slack events via an asynchronously executed lambda function
+- [Slack Notifier](/modules/lambda_functions/slack_notifier): Sends status updates to slack and a target step function
+
 ## Setup
 
 1. Retrieve the LDAPS endpoint of your target AD deployment.
@@ -28,21 +43,6 @@ This project deploys a collection of lambda functions, an api endpoint, and a st
       3. Navigate to Features > Event Subscriptions > Enable Events
       4. Enter the api gateway url created in the previous step
 9. Test the integration by manually triggering the LDAP maintenance step function with the following payload: `{"action": "query" }`
-
-## Submodules
-
-[API Gateway](/modules/api_gateway)
-
-### Lambda Functions
-
-- [DynamoDB Cleanup](/modules/lambda_functions/dynamodb_cleanup): Facilitates removing disabled users' email(s) from a target DynamoDB table
-- [LDAP Query](/modules/lambda_functions/ldap_query): Used to perform actions against a target ldap database
-- [Slack Listener](/modules/lambda_functions/slack_listener): Responds to slack events via an asynchronously executed lambda function
-- [Slack Notifier](/modules/lambda_functions/slack_notifier): Sends status updates to slack and a target step function
-
-## Architecture
-
-![State Machine Definition](_docs/state_machine_def_0.0.1.png)
 
 ## References
 
