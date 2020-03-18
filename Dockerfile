@@ -1,4 +1,4 @@
-FROM plus3it/tardigrade-ci:0.0.9
+FROM maximumoverdrive/ci-testing:test
 
 WORKDIR /ci-harness
 ENTRYPOINT ["make"]
